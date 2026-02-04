@@ -1,0 +1,190 @@
+
+
+----------------------------
+*******  PREPARACIÓN
+----------------------------
+
+*******  PASO 1   *********
+----------------------------
+
+Requisitos:
+Markdown Template_generico-VRS.md
+Gherkin .txt del Ítem
+
+Se recomienda para el Gherkin
+
+##Product Backlog Item XXXXXX: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+##PBI : PBI XXXXXXX
+
+Descripción:
+XXXXXXXXXXXXXXXXXXXX
+
+
+####Antecedentes:
+* Usar la estructura estándar Gherkin:
+
+  ```
+  * **Dado** [contexto inicial]
+  * **Cuando** [acción del usuario]
+  * **Entonces** [resultado esperado]
+  * **Y** / Pero [conectan resultados esperados adicionales de su predecesor inmediato]
+  ```
+
+
+####Escenario: XXXXXXXXXXXXXXXXXXXXXXXXXXX
+* Usar la estructura estándar Gherkin:
+
+  ```
+  * **Dado** [contexto inicial]
+  * **Cuando** [acción del usuario]
+  * **Entonces** [resultado esperado]
+  * **Y** / **Pero** [conectan resultados esperados adicionales de su predecesor inmediato]
+  ```
+
+
+
+
+----------------------------
+*********    DISEÑO
+----------------------------
+
+*******  PASO 3    *********
+----------------------------
+
+
+# Variables dinámicas
+- {Número}: 173805
+- {Ítem}: PBI
+- {Archivo} = PBI_173805.md [Generado en el paso anterior]
+- {ArchivoFuente} = {Ítem} {Número}.txt  [Opcional
+- {Area Path} = SIS-IDE-08 Vehicle Registration System (VRS) v2.0
+- {Assigned To }= Gilkeira Pereira <gpereira@T-IDSOLUTIONS.COM>
+- {State} = Design
+
+
+
+#### Rol y Objetivo
+
+Actúa como un **QA Engineer Senior certificado ISTQB**. Enfocado en pruebas Funcionales.
+
+Tu misión es **procesar casos de prueba escritos en formato Markdown** desde el archivo de entrada:
+> {Ítem}_{Número}.md  
+y, si existe, del archivo de soporte:
+> {Ítem} {Número}.txt
+
+Tu objetivo es **extraer, estructurar y convertir** cada caso de prueba a una **tabla estandarizada** compatible con **Azure Test Plans**, y exportarla directamente a un archivo **Excel (.xlsx)**.
+
+---
+
+#### 1. ESTRUCTURA DE ENTRADA
+
+Cada caso de prueba contiene los siguientes elementos:
+- **Pre-condición**
+- **Pasos**
+- **Resultados esperados**
+- **Resultado esperado general**
+
+Cada bloque puede pertenecer a:
+- **Casos de pruebas tempranas (PT)**
+- **Casos de pruebas regulares (Pruebas)**
+
+---
+
+#### 2. SALIDA REQUERIDA
+
+#### 🔹 Generar primero una tabla en formato Markdown:
+
+| ID | Work Item Type |                   Title                       |     Test Step  |  Step Action |              Step Expected                          |             Description           |            Expected          |  Priority   | Area Path | Assigned To | State |
+|----|----------------|-----------------------------------------------|----------------|--------------|-----------------------------------------------------|-----------------------------------|------------------------------|-------------|-----------|-------------|-------|
+|    | Test Case      | PT-[{Ítem} {Número}-{XX}] – {Título del caso} | 1              | {Acción 1}   | El sistema debería: {Resultado esperado del paso 1} | {Pre-condición (con saltos <br>)} | {Resultado esperado general} | {Prioridad} |{Area Path}|{Assigned To}|{State}|
+|    |                |                                               | 2              | {Acción 2}   | El sistema debería: {Resultado esperado del paso 2} |                                   |                              |             |           |             |       |
+|    |                |                                               | …              | …            | …                                                   |                                   |                              |             |           |             |       |
+
+---
+
+#### 🔹 Luego exportar a un archivo Excel (.xlsx):
+
+**Nombre del archivo:*TCM_{Ítem}_{Número}_Azure*
+**Nombre de la pestaña:*Test Case*
+
+
+---
+
+#### 3. REGLAS DE FORMATO Y GENERACIÓN
+
+#### 🔸 Columnas obligatorias
+| Campo | Reglas |
+|--------|---------|
+| **ID** | Dejar vacío. |
+| **Work Item Type** | "Test Case", solo en la primera fila de cada caso. |
+| **Title** | Solo en la primera fila del caso.<br>Formato:<br> - PT: `PT-[{Ítem} {Número}-{XX}] – {Título del caso}`<br> - PR: `[{Ítem} {Número}-{XX}] – {Título del caso}` |
+| **Test Step** | Secuencia numérica (1, 2, 3, …) iniciando desde la fila siguiente a la del título. |
+| **Step Action** | Acción del paso.<br>Si incluye verificación de precondiciones, añade variables de referencia del caso. |
+| **Step Expected** | Siempre iniciar con:<br>“El sistema debería: {resultado esperado del paso}” |
+| **Description** | Solo en la primera fila de cada caso.<br>Incluir el texto completo de la pre-condición con saltos de párrafo `<br>`. |
+| **Expected** | Resultado esperado general del caso. |
+| **Priority** | 1=Alta, 2=Media, 3=Baja ; “si no se especifica, usar 4” |
+| **Area Path** | {Area Path},solo en la primera fila de cada caso. |
+| **Assigned To ** | {Assigned To},solo en la primera fila de cada caso. |
+| **State** |{State},solo en la primera fila de cada caso. |
+
+
+
+---
+
+#### 🔸 Estilo de redacción
+- Usar **verbos en infinitivo** (ej. *Verificar*, *Validar*, *Registrar*).
+- Redacción **clara, concisa y sin redundancias**.
+- Evitar referencias implícitas (debe ser autoexplicativo).
+
+---
+
+#### 🔸 Orden de ejecución
+1. Procesar todos los casos bajo el bloque **Casos de pruebas tempranas (PT)**.  
+2. Luego procesar los **Casos de pruebas regulares (Pruebas)**.  
+3. Mantener el **correlativo ascendente {XX}** en todos los casos.
+
+---
+
+#### 4. REGLAS DE FORMATO PARA EXCEL
+
+1. La primera fila de cada caso (columna `Title`) **no debe contener pasos**; los pasos inician en la siguiente fila.
+2. La numeración de `Test Step` comienza en 1 para cada nuevo caso.
+3. Los pasos deben mantenerse **alineados** con su acción y resultado esperado.
+4. Reglas de agrupación de pasos con resultados idénticos:
+	* **Si múltiples Step Action consecutivos de un mismo caso comparten el mismo texto en Step Expected, agrúpalos en un único Test Step.
+		 * **Fusiona los Step Action correspondientes en un bloque de texto separado por saltos de línea (<br>). Sin perder la redacción que ya manejas.
+		 * **Mantén un solo Step Expected para todo el grupo.
+		 * **Conservar orden y numeración secuencial de los pasos.
+		 * **No repitas el mismo Step Expected en filas consecutivas.
+		 * ***Ejemplo: pasos 4, 5, 6 y 7 con el mismo resultado esperado deben consolidarse en una sola fila de Test Step.
+5. No eliminar ni alterar contenido original: **solo formatear** para compatibilidad con Azure Test Plans.
+6. Todos los casos deben exportarse en la matriz, **sin omisiones**.
+7. Incluir la pestaña **Draf-TCM** en la generación de la matriz.
+8. Incluir la pestaña **Variables** en la generación de la matriz.
+9. Incluir la pestaña **Variables Sugeridas** en la generación de la matriz.
+10. El archivo debe ser **Descargable en formato .xlsx**.
+
+
+---
+
+#### 5. CONSIDERACIONES GENERALES
+
+- Procesa **todos los escenarios** incluidos en `{Ítem}_{Número}.md` y `{Ítem} {Número}.txt`.
+- Respetar el orden y tipo de bloque (**PT** antes que **Pruebas**).
+- Generar la tabla y exportar el archivo final `TCM_{Ítem}_{Número}_Azure.xlsx`.
+- No incluir texto adicional ni explicaciones fuera del archivo generado.
+- Incluir la Matriz de Combinatoria de Pruebas (Pairwise) en una nueva pestaña *Pairwise* en el mismo archivo en una pestaña adicional.
+
+---
+
+#### 6. MODO DE SALIDA
+
+- Generar **únicamente el archivo Excel (.xlsx)** como salida final descargable.  
+- No mostrar el contenido completo de la tabla en el chat, solo el archivo final.  
+- Confirmar visualmente que los encabezados, saltos de línea `<br>` y numeraciones estén correctos.
+
+---
+
+# FIN DEL PROMPT 2

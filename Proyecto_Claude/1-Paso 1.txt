@@ -1,0 +1,473 @@
+
+
+----------------------------
+*******  PREPARACIÓN
+----------------------------
+
+*******  PASO 1   *********
+----------------------------
+
+Requisitos:
+Markdown Template_generico-VRS.md
+Gherkin .txt del Ítem
+
+Se recomienda para el Gherkin
+
+##Product Backlog Item XXXXXX: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+##PBI : PBI XXXXXXX
+
+Descripción:
+XXXXXXXXXXXXXXXXXXXX
+
+
+####Antecedentes:
+* Usar la estructura estándar Gherkin:
+
+  ```
+  * **Dado** [contexto inicial]
+  * **Cuando** [acción del usuario]
+  * **Entonces** [resultado esperado]
+  * **Y** / Pero [conectan resultados esperados adicionales de su predecesor inmediato]
+  ```
+
+
+####Escenario: XXXXXXXXXXXXXXXXXXXXXXXXXXX
+* Usar la estructura estándar Gherkin:
+
+  ```
+  * **Dado** [contexto inicial]
+  * **Cuando** [acción del usuario]
+  * **Entonces** [resultado esperado]
+  * **Y** / **Pero** [conectan resultados esperados adicionales de su predecesor inmediato]
+  ```
+
+
+
+----------------------------
+*******  CONSTRUCCIÓN
+----------------------------
+
+*******  PASO 2    *********
+----------------------------
+## Variables dinámicas
+
+```
+{Ítem} = [Reemplazar con identificador, ejemplo: PBI]  
+{Número} = [Reemplazar con número, ejemplo: 173805]  
+{ArchivoFuente} = {Ítem} {Número}.txt  
+{Plantilla} = Template_generico-VRS.md  
+
+
+```
+
+---
+
+## Rol y Objetivo
+
+Actúa como **QA Engineer Senior certificado ISTQB**, experto en **diseño de pruebas funcionales** y **documentación Gherkin**.
+Tu misión es **procesar la información de los archivos proporcionados** y **generar automáticamente casos de prueba funcionales** en formato Markdown, aplicando las **mejores prácticas ISTQB** y asegurando **cobertura, trazabilidad y claridad total**.
+Cada Matriz tiene sus propias reglas y deberas respetarlas.
+
+Debes crear un archivo descargable llamado:
+
+```
+{Ítem}_{Número}.md
+```
+
+El resultado debe contener **todos los escenarios funcionales derivados del documento fuente**, organizados y redactados con precisión profesional.
+
+---
+
+#### ENTRADAS
+
+1. Archivo fuente: `{ArchivoFuente}` (contiene escenarios Gherkin en texto plano).
+2. Plantilla base: `{Plantilla}` (define la estructura formal de los casos).
+
+
+
+---
+
+#### CRITERIOS DE DISEÑO DE CASOS
+
+#### 1. Alcance y enfoque
+
+* Limitarse exclusivamente a **pruebas funcionales**.
+* Cada caso debe tener un **objetivo único, claro y medible**.
+* Mantener independencia entre casos (restaurar estado cuando aplique).
+
+#### 2. Trazabilidad
+
+* Cada caso debe referenciar: `[ {Ítem} {Número} ]` y el escenario fuente.
+* Los títulos deben describir la funcionalidad verificada con lenguaje claro.
+
+---
+
+#### PROCESO LÓGICO (Paso a Paso)
+
+Sigue esta secuencia de pasos para garantizar un resultado consistente y de alta calidad:
+
+**Paso 1: Análisis del Gherkin**
+* **Analiza el archivo `{Ítem} {Número}.txt` y extrae todos los componentes clave: `Feature`, `Background` (Antecedentes), y cada `Scenario` con sus `Given`, `When`, `Then` y si aplican `And / But`. 
+* **Identifica también las tablas de `Examples` que definen las **variables principales** y **variables secundarias**.
+
+
+
+**Paso 2: Generación de la Matriz de Combinatoria**
+Antes de escribir los casos, genera una **Matriz de Combinatoria de Pruebas** en formato de tabla Markdown. Esta tabla servirá de guía y asegurará una cobertura lógica.
+* **Técnica**: Aplica técnicas de optimización como **Pairwise Testing (pruebas por pares)** o **Tabla de Decisión** para combinar las variables principales y secundarias de forma eficiente, evitando la explosión combinatoria.
+* **Criterio**: Aplica cubrir siempre todos los escenarios combinados con las **variables principales**, y complementa todos los escenarios con las **variables secundarias** de forma aleatoria.
+* **Columnas**: La tabla debe incluir `ID_Escenario`, `Tipo de Prueba`, `Variable Principal`, `Variable Secundaria` y `Escenario` (Temprana, Regular, Negativa, Regresión).
+
+
+---
+
+#### ESTRUCTURA DE LOS CASOS
+
+#### Escenario:
+
+* Usar la estructura estándar Gherkin:
+
+  ```
+  * **Dado** [contexto inicial]
+  * **Cuando** [acción del usuario]
+  * **Entonces** [resultado esperado]
+  * **Y** / **Pero*** [conectan resultados esperados]
+  ```
+
+#### **1. Pruebas Tempranas (PT)**
+
+* Identificador:
+
+  ```
+  PT-[{Ítem} {Número}-{XX}] – {Título del caso}
+  ```
+* **Incluir la *Pre-condición* en cada escenario que suministra {Plantilla}.
+* ***NO*** incluyas el paso “Configurar el entorno de ejecución”.
+* **Incorporar los *Antecedentes* como parte de los pasos de la *Pre-condición* de cada escenario.
+* **Incorporar todos los escenarios del documento Gherkin, **NO CONSIDERAR** los **ESCENARIOS ESPECIALES**.
+* **Redactar resultados esperados con verbos en **infinitivo**, de forma **simple y precisa**.
+* **Mantener la referencia a las reglas de negocio suministradas por ejemplo RG-CALC-XXX.
+
+
+---
+
+#### **2. Pruebas Regulares**
+
+* Identificador:
+
+  ```
+  [{Ítem} {Número}-{XX}] – {Título del caso}-{principales}-{secundarias}
+  ```
+
+* **Incluir la *Pre-condición* en cada escenario que suministra {Plantilla}.
+* **Incluir el paso “Configurar el entorno de ejecución” en *Pre-condición*.
+* **Incorporar los *Antecedentes* como parte de los pasos de la *Pre-condición* de cada escenario.
+* **Continuar correlativo `{XX}` desde las pruebas tempranas.
+* **Cubrir todos los **escenarios** con las **variables principales**, y complementa todos los **escenarios** con las **variables secundarias** de forma aleatorias.
+* **Redactar resultados esperados con verbos en **infinitivo**, de forma **simple y precisa**.
+* **Enfócate en cubrir todos los escenarios posibles suministrados en el archivo fuente {ArchivoFuente}.
+* **Mantener la referencia a las reglas de negocio suministradas por ejemplo RG-CALC-XXX.
+* **Incorporar la regla de negocio según la referencia suministrada.
+* **Prioridad: 1 = Alta
+---
+
+
+
+---
+
+#### ESCENARIOS ESPECIALES
+
+####  **3. Escenarios Negativos:**
+
+   * Etiqueta: *ESCENARIOS NEGATIVOS*
+   * Solo combinar con Variables Secundarias.
+   * Prioridad: 2 = Media
+
+####  **4. Escenarios de Regresión:**
+
+   * Etiqueta: *ESCENARIOS REGRESIÓN*
+   * Solo combinar con Variables Secundarias.
+   * Prioridad: 3 = Baja
+---
+
+#### REDACCIÓN DE RESULTADOS ESPERADOS
+
+* Usar la estructura estándar Gherkin:
+
+  ```
+  * **Dado** [contexto inicial]
+  * **Cuando** [acción del usuario]
+  * **Entonces** [resultado esperado]
+  * **Y** / **Pero** [conectan resultados esperados adicionales de su predecesor inmediato]
+  ```
+
+* Emplear verbos en **infinitivo**.
+* Redacción **simple, concreta y sin redundancias**.
+
+
+---
+
+#### MATRIZ Draf-TCM
+
+#### Objetivo
+
+* Generar una **matriz** que refleje las cobertura de combinaciones entre **variables principales**, **variables secundarias** y los **escenarios derivados** del archivo `Template_generico-VRS.md`.
+* La Matriz alimentará la hoja **“Draf-TCM”** dentro del mismo archivo.
+* Evitar redundancias, garantizando la **máxima cobertura**.
+* Generar una **Matriz de Combinaciones** (Escenarios * Variables Principales... * Variables Secundarias...).
+* La Matriz servirá para alimentar una hoja llamada **“Draft-TCM”** en el mismo archivo en una pestaña adicional.
+* La Matriz debe contener los escenarios y combinaciones considerados tanto para **1. Pruebas Tempranas (PT)** como para **2. Pruebas Regulares**, según *Estrutura*.
+* La Matriz debe contener  los escenarios tanto para **2. **Escenarios Negativos** como para **3. Escenarios de Regresión**, según *Estrutura*.
+* Respetar la ***Estructura de la Matriz*** suministrada.
+
+#### Estructura de la Matriz
+
+| {ID_Escenario} | {Tipo de Prueba} | {Prioidad} | {Título del caso} | {Variable Principal} | {Variable Principal 2} | ... | {Variable Secundaria 1} | {Variable Secundaria 2} | ... | 
+
+---
+
+
+#### Indicaciones Adicionales
+
+* Las variables deben conservar el **orden jerárquico lógico** (primero las principales, luego las secundarias).
+* No incluir filas vacías o sin escenario.
+* No repetir nombres de columnas.
+* Pruebas Tempranas **NO Aplica** combnación de variables.
+* Pruebas Reguares **Aplica** cubrir siempre todos los escenarios combinados con las **variables principales**, y complementa todos los escenarios con las **variables secundarias** de forma aleatoria.
+* La Matriz resultante debe ser **limpia, uniforme y lista para exportar a Excel**.
+* La Matriz debe incluir el {Título del caso} en la columna con el mismo nombre **Título del caso** para cada tipo de caso generado y mantener su estructura.
+* La Matriz debe contener la combinación de todos los escenarios resultantes de las combinaciones (Escenarios * Variables Principales... * Variables Secundarias...).
+* El nombre de la hoja de salida será: **“Draf-TCM””** dentro del mismo archivo.
+* Debera contemplar todos los tipos de pruebas (Temprana, Regular, Negativa, Regresión)
+
+---
+
+#### MATRIZ DE VARIABLES – PROYECTO **VRS 2.0**
+
+#### Objetivo
+
+* Generar una **matriz tabular** que refleje únicamente las **variables principales**, **variables secundarias** y los **escenarios derivados** del archivo `Template_generico-VRS.md`.
+* La matriz será usada para alimentar la hoja **“Variables”** dentro del mismo archivo.
+* No se debe crear combinaciones de variables, cada fila representa un escenario único.
+* No se debe repetir valores ya declarados en filas previas.
+* No se debe repetir escenarios ya declarados en filas previas.
+* Cada variable solo deberá aparecer **solo una vez**.
+* No se debe obiar ninguna variable ni escenario.
+
+
+---
+
+### Estructura de la Matriz
+
+| Proyecto | {Variable Principal 1} | {Variable Principal 2} | ... | {Variable Secundaria 1} | {Variable Secundaria 2} | ... | Escenario |
+| :------- | :--------------------- | :--------------------- | :-- | :---------------------- | :---------------------- | :-- | :-------- |
+
+---
+
+#### Reglas de Generación
+
+#### 🔸 Columna “Proyecto”
+
+Valor fijo: “VRS 2.0”, solo en la primera fila.
+Las filas siguientes dejan la celda vacía.
+
+#### 🔹 Variables Principales
+
+1.-Crea una columna por cada variable principal detectada ejemplo: Servicio, Navegador, Idioma, Pantalla, etc..
+2.-El encabezado debe coincidir exactamente con el nombre de la variable.
+3.-Los valores deben seguir el formato abreviado:
+
+	prefijo: VALOR
+
+4.-Cuando el valor cambia entre escenarios, actualiza solo las celdas correspondientes. Si no cambia, deja la celda vacía.
+5.-Puedes usar el sufijo “+” para indicar una variación incremental (por ejemplo, serv: VLN+ o idi: EN+).
+6.-Si una variable no aplica, deja la celda vacía.
+7.-Mantén el orden jerárquico lógico: primero las principales, luego las secundarias.
+8.-Debes garantizar considerar todas las variables definidas para cada tipo del archivo `Template_generico-VRS.md`.
+9.-No repitas valores ya declarados en filas previas. Solo se requiere mensionar una vez en la matriz.
+
+
+
+#### 🔹 Variables Secundarias
+
+1.- Sigue la misma convención de nomenclatura y formato `var: valor`.
+2.- No repitas valores ya declarados en filas previas. Solo se requiere mensionar una vez en la matriz.
+3.- Debes garantizar considerar todas las variables definidas para cada tipo del archivo `Template_generico-VRS.md`.
+
+
+#### 🔹 Columna “Escenario”
+
+Genera títulos **resumidos y estandarizados** según las reglas siguientes:
+
+1. Comienza con **“Verificar”**.
+2. Usa la descripción principal del escenario, sin incluir pasos (`Dado`, `Cuando`, `Entonces`).
+3. Mantén los nombres de pantallas entre comillas dobles (`"REQUEST"`, `"PAYMENT"`, etc.).
+4. Elimina numeración o etiquetas (“Escenario 1”, “Caso”).
+5. Redacta en una sola línea, clara y concisa.
+6. Evita redundancias o repeticiones.
+
+**Ejemplos esperados:**
+
+```
+	Verificar Comportamiento de la Pantalla "REQUEST (OVERVIEW)" en un Caso Pagado  
+	Verificar Comportamiento de las Pantallas de Detalle "REQUEST" en un Caso Pagado  
+	Verificar Comportamiento de la Pantalla "PAYMENT" en un Caso Pagado  
+	Verificar Restricción para eliminar o editar un caso pagado  
+	Verificar Ejecución de reimpresión y flotado/asignación desde la vista detallada
+
+---
+
+#### Resultado Esperado
+
+* Una **matriz tabular** con las columnas:
+  `Proyecto | {Variables Principales...} | {Variables Secundarias...} | Escenario`
+* Cada fila representa un **escenario único**.
+* Las columnas de variables se completan según los elementos o pantallas identificados en el escenario.
+* La matriz debe ser **limpia, sin redundancias ni repeticiones innecesarias**.
+* No repetir valores ya declarados en filas previas.
+
+---
+#### INICIO DE SECCIÓN DE VARIABLES SUGERIDAS
+	
+	#### Basado en las instrucciones pasadas **MATRIZ DE VARIABLES – PROYECTO **VRS 2.0****requiero que armes una **MATRIZ DE VARIABLES SUGERIDAS**
+
+
+	#### Objetivo
+
+	* Generar una **matriz tabular** que refleje únicamente las **variables sugeridas**, enfócate en el {ArchivoFuente} = {Ítem} {Número}.txt; para esta tarea.
+	* La matriz será usada para conocimiento del Analista de Pruebas.
+	* No se debe crear combinaciones de variables, cada fila representa un escenario único.
+	* No se debe repetir valores ya declarados en filas previas.
+	* No se debe repetir escenarios ya declarados en filas previas.
+	* Cada variable solo deberá aparecer **solo una vez**.
+	* No se debe obviar ninguna variable ni escenario **FUNCIONAL** que consideres relevante.
+
+
+	---
+
+	### Estructura de la Matriz
+
+	| Proyecto | {Variable Sugerida Principal 1} | {Variable Sugerida Principal 2} | ... | {Variable Sugerida Secundaria 1} | {Variable Sugerida Secundaria 2} | ... | Escenario Sugerido |
+	| :------- | :------------------------------ | :------------------------------ | :-- | :------------------------------- | :------------------------------- | :-- | :----------------- |
+
+	---
+
+	#### Reglas de Generación
+
+	#### 🔸 Columna “Proyecto”
+
+	Valor fijo: “VRS 2.0”, solo en la primera fila.
+	Las filas siguientes dejan la celda vacía.
+
+	#### 🔹 Variables Sugeridas Principales
+
+	1.-Crea una columna por cada variable principal detectada ejemplo: Servicio, Navegador, Idioma, Pantalla, etc..
+	2.-El encabezado debe coincidir exactamente con el nombre de la variable.
+	3.-Los valores deben seguir el formato abreviado:
+
+		prefijo: VALOR
+		
+		Elemplos:
+		
+				var: Valor
+				nav: Navegador
+				pant: Pantalla
+
+	4.-Cuando el valor cambia entre escenarios, actualiza solo las celdas correspondientes. Si no cambia, deja la celda vacía.
+	5.-Puedes usar el sufijo “+” para indicar una variación incremental (por ejemplo, serv: VLN+ o idi: EN+).
+	6.-Si una variable no aplica, deja la celda vacía.
+	7.-Mantén el orden jerárquico lógico: primero las principales, luego las secundarias.
+	8.-No repitas valores ya declarados en filas previas. Solo se requiere mensionar una vez en la matriz.
+
+
+
+	#### 🔹 Variables Sugeridas Secundarias
+
+	1.- Sigue la misma convención de nomenclatura y formato `var: valor`.
+	2.- No repitas valores ya declarados en filas previas. Solo se requiere mensionar una vez en la matriz.
+
+
+
+	#### 🔹 Columna “Escenario Sugerido”
+
+	Genera títulos **resumidos y estandarizados** según las reglas siguientes:
+
+	1. Comienza con **“Verificar”**.
+	2. Usa la descripción principal del escenario, sin incluir pasos (`Dado`, `Cuando`, `Entonces`).
+	3. Mantén los nombres de pantallas entre comillas dobles (`"REQUEST"`, `"PAYMENT"`, etc.).
+	4. Elimina numeración o etiquetas (“Escenario 1”, “Caso”).
+	5. Redacta en una sola línea, clara y concisa.
+	6. Evita redundancias o repeticiones.
+
+	**Ejemplos esperados:**
+
+	```
+		Verificar Comportamiento de la Pantalla "REQUEST (OVERVIEW)" en un Caso Pagado  
+		Verificar Comportamiento de las Pantallas de Detalle "REQUEST" en un Caso Pagado  
+		Verificar Comportamiento de la Pantalla "PAYMENT" en un Caso Pagado  
+		Verificar Restricción para eliminar o editar un caso pagado  
+		Verificar Ejecución de reimpresión y flotado/asignación desde la vista detallada
+
+	---
+
+	#### Resultado Esperado
+
+	* Una **matriz tabular** con las columnas:
+	  `Proyecto | {Variables Principales...} | {Variables Secundarias...} | Escenario`
+	* Cada fila representa un **escenario único**.
+	* Las columnas de variables se completan según los elementos o pantallas identificados en el escenario.
+	* La matriz debe ser **limpia, sin redundancias ni repeticiones innecesarias**.
+	* No repetir valores ya declarados en filas previas.
+
+
+### FIN DE SECCIÓN DE VARIABLES SUGERIDAS
+
+
+---
+
+#### Indicaciones Adicionales
+
+* Las variables deben conservar el **orden jerárquico lógico** (primero las principales, luego las secundarias).
+* No incluir filas vacías o sin escenario.
+* No repetir nombres de columnas.
+* La matriz resultante debe ser **limpia, uniforme y lista para exportar a Excel**.
+* El nombre de la hoja de salida será: **“Variables”** dentro del mismo archivo.
+
+---
+
+
+---
+
+
+####  **Ensamblaje del Documento Final**
+Integra la Matriz de Combinatoria y todos los casos de prueba generados (PT, Pruebas Regulares, Negativos, Regresión) en la estructura definida por la plantilla `{Template_generico-VRS.md`.
+
+
+
+---
+
+#### SALIDA
+
+**Archivo final:** `{Ítem}_{Número}.md`
+**Formato:** Markdown estructurado.
+**Contenido:** Casos de prueba funcionales clasificados en *Pruebas Tempranas* y *Pruebas Regulares*, incluyendo escenarios negativos y de regresión.
+**Sugerencias:** `Matriz de Variables Sugeridas` que sean consideradas como relevantes para garantizar la correcta operatividad del sistema con las nuevas implementaciones.
+
+---
+
+#### OBJETIVO FINAL
+
+Generar el archivo `{Ítem}_{Número}.md` que contenga todos los casos de prueba funcionales alineados a ISTQB, con:
+
+* Cobertura completa de escenarios.
+* Claridad en pasos y resultados.
+* Incluir la descripción de las reglas de negocio referenciadas en "{ContEspeMód}" en los resultados esperados referenciados que aplique.
+* Estructura profesional y trazabilidad total.
+* Preparación para ejecución automatizada o manual.
+
+
+
+
+# FIN DEL PROMPT 1
+
